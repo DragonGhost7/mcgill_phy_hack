@@ -4,7 +4,8 @@ import pandas as pd
 
 s = socket.socket()
 df = pd.DataFrame
-
+csv = open("temp_and_hum.csv","w")
+csv.write("id, temp, humid\n")
 s.bind(('0.0.0.0',7777))
 s.listen(0)
 
@@ -14,7 +15,10 @@ while True:
     while True:
         data = client.recv(32)
 
-        if len(data) == 0:
+        if data == b'\r\n':
+            data = None
+        elif len(data) == 0:
             break
         else:
-            print(data )
+            print(str(data.decode('UTF-8')))
+            csv.write(str(data.decode('UTF-8')))

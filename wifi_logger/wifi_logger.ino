@@ -4,13 +4,13 @@
 
 char* ssid = "McGill Physics Hackathon";
 const char* password =  "McGillPhysHack18";
- 
 const uint16_t port = 7777;
 const char * host = "172.16.90.69";
  DHTesp dht;
+ int id = 0;
 void setup()
 {
- 
+   
   Serial.begin(9600);
  dht.setup(2, DHTesp::DHT11);
   WiFi.begin(ssid, password);
@@ -26,22 +26,25 @@ void setup()
  
 void loop()
 {
-    TempAndHumidity lastValues = dht.getTempAndHumidity();
     WiFiClient client;
  
     if (!client.connect(host, port)) {
- 
         Serial.println("Connection to host failed");
  
         delay(1000);
         return;
     }
- 
-    Serial.println("Connected to server successful!");
-  String data = String(lastValues.temperature,0) + String(lastValues.humidity,0);
+ if(id >= 31){
+    client.stop();
+ }
+TempAndHumidity lastValues = dht.getTempAndHumidity();
+String data = String(id) + ","+ String(lastValues.temperature,0) +","+ String(lastValues.humidity,0) + "\n";
   client.println(data);
+  id = id + 1;
+  
+  delay(10000);
  
     
  
-    delay(10000);
+    
 }
