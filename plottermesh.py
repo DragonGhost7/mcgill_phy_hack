@@ -14,7 +14,7 @@ X,Y = np.meshgrid(x,y)
 #ax.plot(xs=df['id'], ys=df['temp'], zs = df['humid'], zdir='z', label='ys=temperature, zdir=humidity')
 #for pos in range(len(df)):
 #ax.scatter(x,y,df['humid'],s=100,cmap=plt.cm.coolwarm)
-ax.scatter(x,y,np.array(df['humid']),cmap=cm.coolwarm,c=col)
+ax.plot_trisurf(x,y,np.array(df['humid']),cmap=cm.coolwarm,antialiased=True)
 
 ax.set_xbound(0,15)
 ax.set_xlabel('x_pos')
